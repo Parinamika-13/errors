@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Error</title>
+  <meta name="description" content="Software Testing Methodologies lab manual with questions, steps, Java code and expected outputs." />
+  <style>
+    :root {
+      --bg: #000;
+      --panel: #0a0a0a;
+      --panel2: #111;
+      --text: #8f8f8f;
+      --muted: #777;
+      --line: #303030;
+      --code: #050505;
+      --good: #8f8f8f;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f4f4;
+      --panel: #e8e8e8;
+      --panel2: #dedede;
+      --text: #333;
+      --muted: #666;
+      --line: #c4c4c4;
+      --code: #e2e2e2;
+      --good: #444;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    button, input { font: inherit; }
+    a { color: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg);
+    }
+
+    .menu-btn,
+    .theme-btn {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .menu-btn:hover,
+    .theme-btn:hover,
+    .copy:hover {
+      background: var(--panel2);
+      color: var(--text);
+    }
+
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      white-space: nowrap;
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 10px;
+    }
+
+    .logo {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--text);
+      border-radius: 7px;
+      display: grid;
+      place-items: center;
+      background: var(--text);
+      color: var(--bg);
+      font-weight: 900;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 270px minmax(0,1fr);
+      min-height: calc(100vh - 68px);
+      transition: grid-template-columns .2s ease;
+    }
+
+    .layout.sidebar-closed {
+      grid-template-columns: 0 minmax(0,1fr);
+    }
+
+    aside {
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow: hidden;
+      padding: 22px 14px;
+      border-right: 1px solid var(--line);
+      background: var(--bg);
+      transition: padding .2s ease, border .2s ease;
+    }
+
+    .sidebar-closed aside {
+      padding-left: 0;
+      padding-right: 0;
+      border-right: 0;
+    }
+
+    .nav-title {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin: 6px 10px 10px;
+      white-space: nowrap;
+    }
+
+    .nav a {
+      display: block;
+      padding: 9px 10px;
+      margin: 3px 0;
+      color: var(--muted);
+      text-decoration: none;
+      border-radius: 7px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--muted);
+      background: var(--panel2);
+    }
+
+    main {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 58px 34px 90px;
+    }
+
+    h1 {
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.03;
+      letter-spacing: -.055em;
+      margin: 12px 0 18px;
+    }
+
+    .hero p {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .experiment {
+      scroll-margin-top: 90px;
+      margin: 0 0 70px;
+    }
+
+    .exp-head {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .exp-number {
+      color: var(--muted);
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.65;
+      flex: 0 0 auto;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+      letter-spacing: 0;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    h3 {
+      margin: 24px 0 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .question {
+      padding: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      color: var(--muted);
+    }
+
+    .question strong {
+      color: var(--muted);
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .steps {
+      padding: 0 0 0 24px;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      color: var(--muted);
+    }
+
+    .steps li {
+      margin: 5px 0;
+      color: var(--muted);
+    }
+
+    .code-card {
+      overflow: hidden;
+      margin-top: 14px;
+    }
+
+    .code-top {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel2);
+    }
+
+    .code-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    .copy {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow: auto;
+      background: var(--code);
+      color: var(--text);
+      font: 13px/1.7 Consolas, "Courier New", monospace;
+    }
+
+    .output pre {
+      color: var(--text);
+    }
+
+    .note {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--text);
+      background: var(--panel);
+      color: var(--muted);
+    }
+
+    .missing {
+      padding: 16px;
+      color: var(--muted);
+    }
+
+    .footer {
+      padding-top: 35px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .back {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 900px) {
+      .layout,
+      .layout.sidebar-closed {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: fixed;
+        left: 0;
+        top: 68px;
+        z-index: 40;
+        width: 270px;
+        height: calc(100vh - 68px);
+        box-shadow: 10px 0 30px rgba(0,0,0,.25);
+      }
+
+      .sidebar-closed aside {
+        width: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      main { padding: 42px 18px 70px; }
+    }
+
+    @media (max-width: 600px) {
+      .topbar {
+        padding: 0 10px;
+        height: 62px;
+      }
+
+      .brand small { display: none; }
+      .search { width: 42vw; }
+      h2 { font-size: 23px; }
+      pre { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" title="Toggle sidebar" aria-label="Toggle sidebar">☰</button>
+<button class="theme-btn" id="themeBtn" title="Toggle light/dark mode" aria-label="Toggle light/dark mode">☼</button>
+</header>
+
+<div class="layout" id="layout">
+  <aside>
+    <div class="nav-title">Contents</div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+
+  <main>
+<div id="content"></div>
+</main>
+</div>
+
+<button class="back" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<script>
+const experiments = [
+{
+ id:"exp1", num:"1", title:"Recording in Context Sensitive Mode and Analog Mode",
+ question:"Record a test case in Context Sensitive Mode and Analog Mode using Selenium IDE.",
+ steps:[
+ "Open Chrome/Edge.",
+ "Install the Selenium IDE extension.",
+ "Open Selenium IDE.",
+ "Click Create a new project.",
+ "Enter the project name.",
+ "Click Add new test and enter TC_Record_Google.",
+ "Click the red Record button.",
+ "Enter the base URL https://www.google.com.",
+ "Click Start Recording.",
+ "Click the search box.",
+ "Type selenium.",
+ "Press Enter.",
+ "Click a result.",
+ "Go back.",
+ "Stop recording.",
+ "Review the generated commands.",
+ "Run the test.",
+ "For analog-style actions, record a drag-and-drop or slider movement on a demo site.",
+ "Save the project."
+ ],
+ code:`open | https://www.google.com
+type | name=q | selenium
+assertTitle | Google`,
+ output:`Running 'TC_Record_Google'
+
+open | https://www.google.com
+type | name=q | selenium
+assertTitle | Google
+
+Test completed successfully
+Result: PASS`
+},
+{
+ id:"exp2", num:"2", title:"GUI Checkpoint for Single Property",
+ question:"Write a Java program to perform a GUI checkpoint for a single property such as the title of a window.",
+ steps:[
+ "Create a Java project.",
+ "Create the class Exp2_SinglePropertyCheckpoint.",
+ "Create a JFrame with title Google.",
+ "Get the actual title.",
+ "Compare the actual title with the expected title.",
+ "Display PASS if both are equal.",
+ "Otherwise display FAIL.",
+ "Run the program."
+ ],
+ code:`import javax.swing.JFrame;
+
+public class Exp2_SinglePropertyCheckpoint {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        JFrame frame = new JFrame("Google");
+
+        frame.setSize(400, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        String expectedTitle = "Google";
+        String actualTitle = frame.getTitle();
+
+        System.out.println("Actual Title : " + actualTitle);
+        System.out.println("Expected Title : " + expectedTitle);
+
+        if (actualTitle.equals(expectedTitle)) {
+            System.out.println("PASS: Title is correct");
+        } else {
+            System.out.println("FAIL: Title is incorrect");
+        }
+
+        Thread.sleep(2000);
+        frame.dispose();
+    }
+}`,
+ output:`Actual Title : Google
+Expected Title : Google
+PASS: Title is correct`
+},
+{
+ id:"exp3", num:"3", title:"GUI Checkpoint for Single Object/Window",
+ question:"Write a Java program to check whether a single GUI object is displayed and enabled.",
+ steps:[
+ "Create a JFrame.",
+ "Create a JTextField.",
+ "Add the text field to a panel.",
+ "Add the panel to the frame.",
+ "Display the frame.",
+ "Check whether the object is displayed using isShowing().",
+ "Check whether it is enabled using isEnabled().",
+ "Display PASS if both are true.",
+ "Otherwise display FAIL.",
+ "Run the program."
+ ],
+ code:`import javax.swing.*;
+
+public class Exp3_SingleObjectCheckpoint {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        JFrame frame = new JFrame("Single Object Checkpoint");
+
+        JTextField searchBox = new JTextField(20);
+
+        JPanel panel = new JPanel();
+
+        panel.add(new JLabel("Search:"));
+        panel.add(searchBox);
+
+        frame.add(panel);
+
+        frame.setSize(400, 150);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        Thread.sleep(500);
+
+        boolean displayed = searchBox.isShowing();
+        boolean enabled = searchBox.isEnabled();
+
+        System.out.println("Displayed: " + displayed);
+        System.out.println("Enabled : " + enabled);
+
+        System.out.println(displayed && enabled
+            ? "PASS: Search box is ready"
+            : "FAIL: Search box is not ready");
+
+        Thread.sleep(2000);
+        frame.dispose();
+    }
+}`,
+ output:`Displayed: true
+Enabled : true
+PASS: Search box is ready`
+},
+{
+ id:"exp4a", num:"4(a)", title:"Bitmap Checkpoint for Object/Window",
+ question:"Write a Java program to perform a bitmap checkpoint for an object/window using screenshot comparison.",
+ steps:[
+ "Create a JFrame.",
+ "Add a search box.",
+ "Display the frame.",
+ "Create a Screenshots folder.",
+ "Capture the search box.",
+ "Save the current image.",
+ "Check whether the baseline image exists.",
+ "Compare the current image with the baseline image.",
+ "Display PASS if images are identical.",
+ "Display FAIL if images are different."
+ ],
+ code:`import javax.swing.*;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+public class NewTest {
+
+    public static void main(String[] args) throws Exception {
+
+        JFrame frame = new JFrame("Bitmap Checkpoint Test");
+        JTextField searchBox = new JTextField("Search here", 20);
+        JPanel panel = new JPanel();
+        panel.add(searchBox);
+        frame.add(panel);
+
+        frame.setSize(350, 120);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        Thread.sleep(1000);
+
+        File folder = new File("Screenshots");
+        if (!folder.exists()) folder.mkdir();
+
+        BufferedImage currentImage = new BufferedImage(
+            searchBox.getWidth(),
+            searchBox.getHeight(),
+            BufferedImage.TYPE_INT_RGB
+        );
+
+        Graphics2D g2 = currentImage.createGraphics();
+        searchBox.paint(g2);
+        g2.dispose();
+
+        File currentFile = new File("Screenshots/current_searchbox.png");
+        ImageIO.write(currentImage, "png", currentFile);
+
+        System.out.println("Current screenshot saved:");
+        System.out.println(currentFile.getAbsolutePath());
+
+        File baselineFile = new File("Screenshots/baseline_searchbox.png");
+
+        if (!baselineFile.exists()) {
+            System.out.println("Baseline image not found.");
+            System.out.println("Rename current_searchbox.png as baseline_searchbox.png");
+        } else {
+            boolean result = compareImages(baselineFile, currentFile);
+
+            if (result) {
+                System.out.println("BITMAP CHECKPOINT : TEST PASS");
+                System.out.println("Images are identical.");
+            } else {
+                System.out.println("BITMAP CHECKPOINT : TEST FAIL");
+                System.out.println("Images are different.");
+            }
+        }
+
+        Thread.sleep(2000);
+        frame.dispose();
+    }
+
+    public static boolean compareImages(File img1, File img2) throws Exception {
+
+        BufferedImage image1 = ImageIO.read(img1);
+        BufferedImage image2 = ImageIO.read(img2);
+
+        if (image1.getWidth() != image2.getWidth()
+            || image1.getHeight() != image2.getHeight())
+            return false;
+
+        for (int x = 0; x < image1.getWidth(); x++) {
+            for (int y = 0; y < image1.getHeight(); y++) {
+                if (image1.getRGB(x, y) != image2.getRGB(x, y))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+}`,
+ output:`Current screenshot saved:
+.../Screenshots/current_searchbox.png
+
+BITMAP CHECKPOINT : TEST PASS
+Images are identical.`
+},
+{
+ id:"exp4b", num:"4(b)", title:"Bitmap Checkpoint for Screen Area",
+ question:"Write a Java program to perform a bitmap checkpoint for a screen area by cropping and comparing images.",
+ steps:[
+ "Create a JFrame.",
+ "Add a label, text field and button.",
+ "Display the frame.",
+ "Capture the complete frame.",
+ "Select the required screen area.",
+ "Save the current screen area.",
+ "Read the baseline image.",
+ "Compare both images.",
+ "Calculate image similarity.",
+ "If similarity is at least 95%, display PASS.",
+ "Otherwise display FAIL."
+ ],
+ code:`import javax.swing.*;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+public class NewTest {
+
+    public static void main(String[] args) throws Exception {
+
+        JFrame frame = new JFrame("Bitmap Area Checkpoint");
+        JPanel panel = new JPanel(new FlowLayout());
+
+        panel.add(new JLabel("Google Search"));
+        panel.add(new JTextField(25));
+        panel.add(new JButton("Search"));
+
+        frame.add(panel);
+        frame.setSize(800, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        Thread.sleep(1000);
+
+        BufferedImage fullImage = new BufferedImage(
+            frame.getWidth(),
+            frame.getHeight(),
+            BufferedImage.TYPE_INT_RGB
+        );
+
+        Graphics2D g2 = fullImage.createGraphics();
+        frame.paint(g2);
+        g2.dispose();
+
+        File folder = new File("SeleniumScreenshots");
+        if (!folder.exists()) folder.mkdirs();
+
+        int width = Math.min(800, fullImage.getWidth());
+        int height = Math.min(600, fullImage.getHeight());
+
+        BufferedImage currentArea =
+            fullImage.getSubimage(0, 0, width, height);
+
+        File currentFile =
+            new File("SeleniumScreenshots/current_google_area.png");
+
+        ImageIO.write(currentArea, "png", currentFile);
+
+        System.out.println("Current screenshot saved:");
+        System.out.println(currentFile.getAbsolutePath());
+
+        File baselineFile =
+            new File("SeleniumScreenshots/baseline_google_area.png");
+
+        if (!baselineFile.exists()) {
+            System.out.println("Baseline image not found.");
+            System.out.println(
+                "Rename current_google_area.png to baseline_google_area.png"
+            );
+        } else {
+            BufferedImage baseline = ImageIO.read(baselineFile);
+
+            double similarity =
+                compareImages(baseline, currentArea);
+
+            System.out.printf(
+                "Image Similarity : %.2f%%%n",
+                similarity
+            );
+
+            if (similarity >= 95)
+                System.out.println("BITMAP CHECKPOINT : TEST PASS");
+            else
+                System.out.println("BITMAP CHECKPOINT : TEST FAIL");
+        }
+
+        Thread.sleep(2000);
+        frame.dispose();
+    }
+
+    public static double compareImages(
+            BufferedImage img1,
+            BufferedImage img2) {
+
+        if (img1.getWidth() != img2.getWidth()
+            || img1.getHeight() != img2.getHeight())
+            return 0;
+
+        long totalPixels =
+            (long) img1.getWidth() * img1.getHeight();
+
+        long samePixels = 0;
+
+        for (int x = 0; x < img1.getWidth(); x++) {
+            for (int y = 0; y < img1.getHeight(); y++) {
+                if (img1.getRGB(x, y) == img2.getRGB(x, y))
+                    samePixels++;
+            }
+        }
+
+        return ((double) samePixels / totalPixels) * 100;
+    }
+}`,
+ output:`Current screenshot saved:
+.../SeleniumScreenshots/current_google_area.png
+
+Image Similarity : 100.00%
+BITMAP CHECKPOINT : TEST PASS`
+},
+{
+ id:"exp5", num:"5", title:"Database Checkpoint for Default Check",
+ question:"Write a Java program to perform a database checkpoint for a default check to verify whether a record exists.",
+ steps:[
+ "Connect to the H2 database.",
+ "Create the STUDENT table.",
+ "Delete existing records.",
+ "Insert a student record.",
+ "Execute a SELECT query.",
+ "Check whether the record exists.",
+ "Display the record details.",
+ "Display TEST PASSED if the record exists.",
+ "Otherwise display TEST FAILED.",
+ "Close the database connection."
+ ],
+ code:`import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class NewTest {
+
+    public static void main(String[] args) {
+
+        try {
+
+            Connection con =
+                DriverManager.getConnection(
+                    "jdbc:h2:./StudentDB",
+                    "sa",
+                    ""
+                );
+
+            Statement stmt = con.createStatement();
+
+            stmt.execute(
+                "CREATE TABLE IF NOT EXISTS STUDENT (" +
+                "ID INT PRIMARY KEY, " +
+                "NAME VARCHAR(50), " +
+                "EMAIL VARCHAR(100))"
+            );
+
+            stmt.execute("DELETE FROM STUDENT");
+
+            stmt.executeUpdate(
+                "INSERT INTO STUDENT VALUES " +
+                "(1, 'Ajay', 'ajay@gmail.com')"
+            );
+
+            ResultSet rs =
+                stmt.executeQuery(
+                    "SELECT * FROM STUDENT WHERE ID = 1"
+                );
+
+            if (rs.next()) {
+
+                System.out.println("Record Exists");
+                System.out.println("ID : " + rs.getInt("ID"));
+                System.out.println("Name : " + rs.getString("NAME"));
+                System.out.println("Email : " + rs.getString("EMAIL"));
+                System.out.println("TEST PASSED");
+
+            } else {
+
+                System.out.println("Record Not Found");
+                System.out.println("TEST FAILED");
+            }
+
+            rs.close();
+            stmt.close();
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}`,
+ output:`Record Exists
+ID : 1
+Name : Ajay
+Email : ajay@gmail.com
+TEST PASSED`,
+ note:"Requires the H2 JDBC driver on the Java classpath."
+},
+{
+ id:"exp6", num:"6", title:"Database Checkpoint for Custom Check",
+ question:"Write a Java program to perform a custom database checkpoint and validate the status of students based on their marks.",
+ steps:[
+ "Connect to the SQLite database.",
+ "Create the students table.",
+ "Delete existing records.",
+ "Insert student records.",
+ "Retrieve marks using the student ID.",
+ "Calculate the actual status.",
+ "Compare it with the expected status.",
+ "Display PASS if both match.",
+ "Display FAIL otherwise.",
+ "Execute the checkpoint for three students."
+ ],
+ code:`import java.sql.*;
+
+public class DatabaseCheckpointCustomCheck {
+
+    static final String DB_URL = "jdbc:sqlite:student.db";
+
+    public static void setupDatabase() throws SQLException {
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement()) {
+
+            stmt.execute(
+                "CREATE TABLE IF NOT EXISTS students (" +
+                "id INTEGER PRIMARY KEY, name TEXT, marks INTEGER)"
+            );
+
+            stmt.execute("DELETE FROM students");
+
+            stmt.execute(
+                "INSERT INTO students VALUES (1, 'Amit', 78)"
+            );
+
+            stmt.execute(
+                "INSERT INTO students VALUES (2, 'Neha', 45)"
+            );
+
+            stmt.execute(
+                "INSERT INTO students VALUES (3, 'Ravi', 92)"
+            );
+        }
+    }
+
+    public static boolean customCheckpoint(
+            int studentId,
+            String expectedStatus)
+            throws SQLException {
+
+        try (Connection conn =
+                DriverManager.getConnection(DB_URL);
+             PreparedStatement ps =
+                conn.prepareStatement(
+                    "SELECT marks FROM students WHERE id = ?"
+                )) {
+
+            ps.setInt(1, studentId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println(
+                    "FAIL: No record found for id " + studentId
+                );
+                return false;
+            }
+
+            int marks = rs.getInt("marks");
+
+            String actualStatus =
+                (marks >= 50) ? "Pass" : "Fail";
+
+            if (actualStatus.equals(expectedStatus)) {
+
+                System.out.println(
+                    "PASS: Student " + studentId +
+                    " status = " + actualStatus +
+                    " (Custom check matched)"
+                );
+
+                return true;
+
+            } else {
+
+                System.out.println(
+                    "FAIL: Student " + studentId +
+                    " expected " + expectedStatus +
+                    ", got " + actualStatus
+                );
+
+                return false;
+            }
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        setupDatabase();
+
+        customCheckpoint(1, "Pass");
+        customCheckpoint(2, "Fail");
+        customCheckpoint(3, "Pass");
+    }
+}`,
+ output:`PASS: Student 1 status = Pass (Custom check matched)
+PASS: Student 2 status = Fail (Custom check matched)
+PASS: Student 3 status = Pass (Custom check matched)`,
+ note:"Requires the SQLite JDBC driver on the Java classpath."
+},
+{
+ id:"exp7", num:"7", title:"Database Checkpoint for Runtime Record Check",
+ question:"Write a Java program to perform a database checkpoint for a runtime record check.",
+ steps:[
+ "Connect to the SQLite database.",
+ "Create the RUNTIME_RECORDS table if it does not already exist.",
+ "Insert a new runtime record with the current timestamp.",
+ "Retrieve the record using its generated ID.",
+ "Compare the retrieved runtime value with the value that was inserted.",
+ "Display PASS if the record exists and the values match.",
+ "Display FAIL otherwise.",
+ "Close the ResultSet, PreparedStatement and database connection."
+ ],
+ code:`import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+
+public class RuntimeRecordCheckpoint {
+
+    private static final String DB_URL =
+        "jdbc:sqlite:runtime_records.db";
+
+    public static void main(String[] args) {
+
+        LocalDateTime runtimeValue =
+            LocalDateTime.now();
+
+        try (Connection con =
+                DriverManager.getConnection(DB_URL)) {
+
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS " +
+                    "RUNTIME_RECORDS (" +
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "RUNTIME_VALUE TEXT NOT NULL)"
+                );
+            }
+
+            long generatedId;
+
+            String insertSql =
+                "INSERT INTO RUNTIME_RECORDS " +
+                "(RUNTIME_VALUE) VALUES (?)";
+
+            try (PreparedStatement insert =
+                    con.prepareStatement(
+                        insertSql,
+                        Statement.RETURN_GENERATED_KEYS
+                    )) {
+
+                insert.setString(
+                    1,
+                    runtimeValue.toString()
+                );
+
+                insert.executeUpdate();
+
+                try (ResultSet keys =
+                        insert.getGeneratedKeys()) {
+
+                    if (!keys.next()) {
+                        System.out.println(
+                            "TEST FAILED: No generated ID"
+                        );
+                        return;
+                    }
+
+                    generatedId = keys.getLong(1);
+                }
+            }
+
+            String selectSql =
+                "SELECT RUNTIME_VALUE " +
+                "FROM RUNTIME_RECORDS " +
+                "WHERE ID = ?";
+
+            try (PreparedStatement select =
+                    con.prepareStatement(selectSql)) {
+
+                select.setLong(1, generatedId);
+
+                try (ResultSet rs =
+                        select.executeQuery()) {
+
+                    if (!rs.next()) {
+                        System.out.println(
+                            "TEST FAILED: Runtime record not found"
+                        );
+                        return;
+                    }
+
+                    String actualValue =
+                        rs.getString("RUNTIME_VALUE");
+
+                    String expectedValue =
+                        runtimeValue.toString();
+
+                    System.out.println(
+                        "Record ID : " + generatedId
+                    );
+
+                    System.out.println(
+                        "Expected Runtime Value : "
+                        + expectedValue
+                    );
+
+                    System.out.println(
+                        "Actual Runtime Value   : "
+                        + actualValue
+                    );
+
+                    if (expectedValue.equals(actualValue)) {
+                        System.out.println(
+                            "DATABASE CHECKPOINT : PASS"
+                        );
+                    } else {
+                        System.out.println(
+                            "DATABASE CHECKPOINT : FAIL"
+                        );
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println(
+                "DATABASE CHECKPOINT : ERROR"
+            );
+            e.printStackTrace();
+        }
+    }
+}`,
+ output:`Record ID : 1
+Expected Runtime Value : 2026-10-07T12:30:45.123
+Actual Runtime Value   : 2026-10-07T12:30:45.123
+DATABASE CHECKPOINT : PASS`,
+ note:"Requires the SQLite JDBC driver on the Java classpath."
+},
+{
+ id:"exp7a", num:"7(a)", title:"Data Driven Test for Dynamic Test Data Submission",
+ question:"Write a Java program to perform data-driven testing using dynamically generated test data.",
+ steps:[
+ "Define product categories.",
+ "Generate random prices.",
+ "Randomly select a category.",
+ "Calculate the discount.",
+ "Execute five test cases.",
+ "Display the test data and result."
+ ],
+ code:`import java.util.Random;
+
+public class DynamicDataTest {
+
+    public static double calculateDiscount(
+            double price,
+            String category) {
+
+        switch (category) {
+            case "electronics":
+                return price * 0.9;
+            case "clothing":
+                return price * 0.8;
+            default:
+                return price;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        String[] categories = {
+            "electronics",
+            "clothing",
+            "grocery"
+        };
+
+        Random rand = new Random();
+
+        System.out.println(
+            "---- Dynamic Test Data Submission ----"
+        );
+
+        for (int i = 1; i <= 5; i++) {
+
+            int price = 100 + rand.nextInt(901);
+
+            String category =
+                categories[
+                    rand.nextInt(categories.length)
+                ];
+
+            double result =
+                calculateDiscount(price, category);
+
+            System.out.printf(
+                "Test %d: price=%d, category=%s " +
+                "-> discounted=%.2f%n",
+                i, price, category, result
+            );
+        }
+    }
+}`,
+ output:`---- Dynamic Test Data Submission ----
+Test 1: price=527, category=electronics -> discounted=474.30
+Test 2: price=304, category=clothing -> discounted=243.20
+Test 3: price=812, category=grocery -> discounted=812.00
+Test 4: price=450, category=electronics -> discounted=405.00
+Test 5: price=265, category=clothing -> discounted=212.00`
+},
+{
+ id:"exp7b", num:"7(b)", title:"Data Driven Test Through Flat Files",
+ question:"Write a Java program to perform data-driven testing using a flat file.",
+ steps:[
+ "Create a file named testdata.txt.",
+ "Store price and category values.",
+ "Read the file using BufferedReader.",
+ "Split each line using a comma.",
+ "Calculate the discount.",
+ "Display the result."
+ ],
+ code:`import java.io.*;
+
+public class FlatFileTest {
+
+    public static double calculateDiscount(
+            double price,
+            String category) {
+
+        switch (category) {
+            case "electronics":
+                return price * 0.9;
+            case "clothing":
+                return price * 0.8;
+            default:
+                return price;
+        }
+    }
+
+    public static void createFlatFile()
+            throws IOException {
+
+        try (
+            PrintWriter pw =
+                new PrintWriter(
+                    new FileWriter("testdata.txt")
+                )
+        ) {
+            pw.println("500,electronics");
+            pw.println("300,clothing");
+            pw.println("150,grocery");
+        }
+    }
+
+    public static void flatFileTest()
+            throws IOException {
+
+        System.out.println(
+            "---- Data Driven Test via Flat File ----"
+        );
+
+        try (
+            BufferedReader br =
+                new BufferedReader(
+                    new FileReader("testdata.txt")
+                )
+        ) {
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+
+                String[] parts = line.split(",");
+
+                double price =
+                    Double.parseDouble(parts[0]);
+
+                String category = parts[1];
+
+                double result =
+                    calculateDiscount(price, category);
+
+                System.out.printf(
+                    "price=%.1f, category=%s " +
+                    "-> discounted=%.2f%n",
+                    price, category, result
+                );
+            }
+        }
+    }
+
+    public static void main(String[] args)
+            throws IOException {
+
+        createFlatFile();
+        flatFileTest();
+    }
+}`,
+ output:`---- Data Driven Test via Flat File ----
+price=500.0, category=electronics -> discounted=450.00
+price=300.0, category=clothing -> discounted=240.00
+price=150.0, category=grocery -> discounted=150.00`
+},
+{
+ id:"exp7c", num:"7(c)", title:"Data Driven Test Through Front Grids",
+ question:"Write a Java program to perform data-driven testing through front-end grids.",
+ steps:[
+ "Create a JFrame.",
+ "Create columns for Price, Category and Result.",
+ "Define multiple test datasets.",
+ "Calculate the discount for each dataset.",
+ "Add each result to the grid.",
+ "Display the grid."
+ ],
+ code:`import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+public class FrontEndGridTest {
+
+    public static double calculateDiscount(
+            double price,
+            String category) {
+
+        switch (category) {
+            case "electronics":
+                return price * 0.9;
+            case "clothing":
+                return price * 0.8;
+            default:
+                return price;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        JFrame frame =
+            new JFrame(
+                "Front End Grid - Data Driven Test"
+            );
+
+        String[] columns = {
+            "Price",
+            "Category",
+            "Result"
+        };
+
+        DefaultTableModel model =
+            new DefaultTableModel(columns, 0);
+
+        Object[][] gridData = {
+            {500.0, "electronics"},
+            {300.0, "clothing"},
+            {150.0, "grocery"}
+        };
+
+        for (Object[] row : gridData) {
+
+            double price = (double) row[0];
+            String category = (String) row[1];
+
+            double result =
+                calculateDiscount(price, category);
+
+            model.addRow(
+                new Object[] {
+                    price,
+                    category,
+                    String.format("%.2f", result)
+                }
+            );
+        }
+
+        JTable table = new JTable(model);
+
+        frame.add(new JScrollPane(table));
+        frame.setSize(400, 200);
+        frame.setDefaultCloseOperation(
+            JFrame.EXIT_ON_CLOSE
+        );
+        frame.setVisible(true);
+    }
+}`,
+ output:`Price Category Result
+500.0 electronics 450.00
+300.0 clothing 240.00
+150.0 grocery 150.00`
+},
+{
+ id:"exp7d", num:"7(d)", title:"Data Driven Test Through Excel",
+ question:"Write a Java program to perform data-driven testing through an Excel file.",
+ steps:[
+ "Create an Excel workbook.",
+ "Create a sheet named TestData.",
+ "Add Price and Category columns.",
+ "Insert test data.",
+ "Save the file as testdata.xlsx.",
+ "Read the Excel file.",
+ "Retrieve price and category values.",
+ "Calculate the discount.",
+ "Display the results."
+ ],
+ code:`import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.*;
+
+public class ExcelDrivenTest {
+
+    public static double calculateDiscount(
+            double price,
+            String category) {
+
+        switch (category) {
+            case "electronics":
+                return price * 0.9;
+            case "clothing":
+                return price * 0.8;
+            default:
+                return price;
+        }
+    }
+
+    public static void createExcelFile()
+            throws IOException {
+
+        Workbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("TestData");
+
+        Object[][] data = {
+            {"Price", "Category"},
+            {500.0, "electronics"},
+            {300.0, "clothing"},
+            {150.0, "grocery"}
+        };
+
+        for (int r = 0; r < data.length; r++) {
+
+            Row row = sheet.createRow(r);
+
+            for (int c = 0; c < data[r].length; c++) {
+
+                Cell cell = row.createCell(c);
+
+                if (data[r][c] instanceof Double)
+                    cell.setCellValue((Double) data[r][c]);
+                else
+                    cell.setCellValue((String) data[r][c]);
+            }
+        }
+
+        try (
+            FileOutputStream fos =
+                new FileOutputStream("testdata.xlsx")
+        ) {
+            wb.write(fos);
+        }
+
+        wb.close();
+    }
+
+    public static void excelDrivenTest()
+            throws IOException {
+
+        System.out.println(
+            "---- Data Driven Test via Excel ----"
+        );
+
+        try (
+            FileInputStream fis =
+                new FileInputStream("testdata.xlsx");
+
+            Workbook wb =
+                new XSSFWorkbook(fis)
+        ) {
+
+            Sheet sheet = wb.getSheetAt(0);
+
+            for (Row row : sheet) {
+
+                if (row.getRowNum() == 0)
+                    continue;
+
+                double price =
+                    row.getCell(0)
+                       .getNumericCellValue();
+
+                String category =
+                    row.getCell(1)
+                       .getStringCellValue();
+
+                double result =
+                    calculateDiscount(price, category);
+
+                System.out.printf(
+                    "price=%.1f, category=%s " +
+                    "-> discounted=%.2f%n",
+                    price, category, result
+                );
+            }
+        }
+    }
+
+    public static void main(String[] args)
+            throws IOException {
+
+        createExcelFile();
+        excelDrivenTest();
+    }
+}`,
+ output:`---- Data Driven Test via Excel ----
+price=500.0, category=electronics -> discounted=450.00
+price=300.0, category=clothing -> discounted=240.00
+price=150.0, category=grocery -> discounted=150.00`,
+ note:"Requires Apache POI (poi-ooxml) on the Java classpath."
+},
+{
+ id:"exp7e", num:"7(e)", title:"Batch Testing Without Parameter Passing",
+ question:"Write a Java program to perform batch testing without parameter passing.",
+ steps:[
+ "Create a test method for addition.",
+ "Create a test method for subtraction.",
+ "Use assertions to verify the results.",
+ "Call both test methods from main().",
+ "Execute the program with assertions enabled."
+ ],
+ code:`public class BatchNoParams {
+
+    public static void testAddition() {
+
+        assert 2 + 3 == 5;
+
+        System.out.println(
+            "test_addition: PASS"
+        );
+    }
+
+    public static void testSubtraction() {
+
+        assert 5 - 2 == 3;
+
+        System.out.println(
+            "test_subtraction: PASS"
+        );
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println(
+            "---- Batch Testing (No Parameters) ----"
+        );
+
+        testAddition();
+        testSubtraction();
+    }
+}`,
+ output:`---- Batch Testing (No Parameters) ----
+test_addition: PASS
+test_subtraction: PASS`
+},
+{
+ id:"exp7f", num:"7(f)", title:"Batch Testing With Parameter Passing",
+ question:"Write a Java program to perform batch testing with parameter passing.",
+ steps:[
+ "Define a method with parameters.",
+ "Pass two numbers, an operator and expected result.",
+ "Perform the required operation.",
+ "Compare actual and expected results.",
+ "Display PASS or FAIL.",
+ "Execute multiple test cases using an array."
+ ],
+ code:`public class BatchWithParams {
+
+    static void testOperation(
+            int a,
+            int b,
+            char op,
+            int expected) {
+
+        int result = 0;
+
+        switch (op) {
+            case '+':
+                result = a + b;
+                break;
+            case '-':
+                result = a - b;
+                break;
+            case '*':
+                result = a * b;
+                break;
+        }
+
+        String status =
+            (result == expected)
+            ? "PASS"
+            : "FAIL";
+
+        System.out.printf(
+            "Test: %d %c %d = %d " +
+            "(expected %d) -> %s%n",
+            a, op, b, result, expected, status
+        );
+    }
+
+    public static void main(String[] args) {
+
+        int[][] testCases = {
+            {2, 3, '+', 5},
+            {10, 4, '-', 6},
+            {3, 3, '*', 9},
+            {5, 5, '-', 1}
+        };
+
+        System.out.println(
+            "---- Batch Testing (With Parameters) ----"
+        );
+
+        for (int[] tc : testCases) {
+
+            testOperation(
+                tc[0],
+                tc[1],
+                (char) tc[2],
+                tc[3]
+            );
+        }
+    }
+}`,
+ output:`---- Batch Testing (With Parameters) ----
+Test: 2 + 3 = 5 (expected 5) -> PASS
+Test: 10 - 4 = 6 (expected 6) -> PASS
+Test: 3 * 3 = 9 (expected 9) -> PASS
+Test: 5 - 5 = 0 (expected 1) -> FAIL`
+},
+{
+ id:"exp8", num:"8", title:"Data Driven Batch",
+ question:"Write a Java program to perform data-driven batch testing using multiple datasets.",
+ steps:[
+ "Create a CSV file named batch_data.csv.",
+ "Store Price, Category and ExpectedResult.",
+ "Read the CSV file.",
+ "Extract the test data.",
+ "Calculate the actual result.",
+ "Compare actual and expected results.",
+ "Count passed and failed tests.",
+ "Display the batch summary."
+ ],
+ code:`import java.io.*;
+
+public class DataDrivenBatch {
+
+    public static double calculateDiscount(
+            double price,
+            String category) {
+
+        switch (category) {
+            case "electronics":
+                return price * 0.9;
+            case "clothing":
+                return price * 0.8;
+            default:
+                return price;
+        }
+    }
+
+    public static void createCsvFile()
+            throws IOException {
+
+        try (
+            PrintWriter pw =
+                new PrintWriter(
+                    new FileWriter("batch_data.csv")
+                )
+        ) {
+            pw.println("Price,Category,ExpectedResult");
+            pw.println("500,electronics,450");
+            pw.println("300,clothing,240");
+            pw.println("150,grocery,150");
+            pw.println("1000,electronics,900");
+        }
+    }
+
+    public static void dataDrivenBatch()
+            throws IOException {
+
+        System.out.println(
+            "---- Data Driven Batch Test ----"
+        );
+
+        int passCount = 0;
+        int failCount = 0;
+
+        try (
+            BufferedReader br =
+                new BufferedReader(
+                    new FileReader("batch_data.csv")
+                )
+        ) {
+
+            String line = br.readLine();
+
+            while ((line = br.readLine()) != null) {
+
+                String[] parts = line.split(",");
+
+                double price =
+                    Double.parseDouble(parts[0]);
+
+                String category = parts[1];
+
+                double expected =
+                    Double.parseDouble(parts[2]);
+
+                double actual =
+                    calculateDiscount(price, category);
+
+                if (actual == expected) {
+
+                    System.out.printf(
+                        "PASS: %s, price=%.1f -> %.1f%n",
+                        category, price, actual
+                    );
+
+                    passCount++;
+
+                } else {
+
+                    System.out.printf(
+                        "FAIL: %s, price=%.1f -> " +
+                        "got %.1f, expected %.1f%n",
+                        category, price, actual, expected
+                    );
+
+                    failCount++;
+                }
+            }
+        }
+
+        System.out.println(
+            "\\nBatch Summary: "
+            + passCount
+            + " Passed, "
+            + failCount
+            + " Failed"
+        );
+    }
+
+    public static void main(String[] args)
+            throws IOException {
+
+        createCsvFile();
+        dataDrivenBatch();
+    }
+}`,
+ output:`---- Data Driven Batch Test ----
+PASS: electronics, price=500.0 -> 450.0
+PASS: clothing, price=300.0 -> 240.0
+PASS: grocery, price=150.0 -> 150.0
+PASS: electronics, price=1000.0 -> 900.0
+
+Batch Summary: 4 Passed, 0 Failed`
+},
+{
+ id:"exp9", num:"9", title:"Silent Mode Test Execution Without Any Interruption",
+ question:"Write a Java program for silent mode test execution without any interruption.",
+ steps:[
+ "Create a logger.",
+ "Disable parent handlers.",
+ "Create a log file.",
+ "Create a test case method.",
+ "Compare actual and expected values.",
+ "Write PASS and FAIL results to the log file.",
+ "Execute the test cases.",
+ "Display the completion message.",
+ "Check the log file."
+ ],
+ code:`import java.util.logging.*;
+import java.io.IOException;
+
+public class SilentModeTest {
+
+    static Logger logger =
+        Logger.getLogger("SilentTestLogger");
+
+    static void setupLogger()
+            throws IOException {
+
+        logger.setUseParentHandlers(false);
+
+        FileHandler fh =
+            new FileHandler("silent_test_log.txt");
+
+        fh.setFormatter(
+            new SimpleFormatter()
+        );
+
+        logger.addHandler(fh);
+    }
+
+    static void testCase(
+            String name,
+            Object actual,
+            Object expected) {
+
+        try {
+
+            if (actual.equals(expected)) {
+
+                logger.info(
+                    name + ": PASS (actual="
+                    + actual
+                    + ", expected="
+                    + expected
+                    + ")"
+                );
+
+            } else {
+
+                logger.severe(
+                    name + ": FAIL (actual="
+                    + actual
+                    + ", expected="
+                    + expected
+                    + ")"
+                );
+            }
+
+        } catch (Exception e) {
+
+            logger.severe(
+                name + ": ERROR - "
+                + e.getMessage()
+            );
+        }
+    }
+
+    public static void main(String[] args)
+            throws IOException {
+
+        setupLogger();
+
+        testCase("Addition Test", 2 + 2, 4);
+        testCase("Subtraction Test", 10 - 5, 5);
+        testCase("Multiplication Test", 3 * 3, 10);
+        testCase("String Test", "abc".toUpperCase(), "ABC");
+
+        System.out.println(
+            "Batch execution completed silently. "
+            + "Check silent_test_log.txt for results."
+        );
+    }
+}`,
+ output:`Batch execution completed silently. Check silent_test_log.txt for results.
+
+INFO: Addition Test: PASS (actual=4, expected=4)
+INFO: Subtraction Test: PASS (actual=5, expected=5)
+SEVERE: Multiplication Test: FAIL (actual=9, expected=10)
+INFO: String Test: PASS (actual=ABC, expected=ABC)`
+},
+{
+ id:"exp10", num:"10", title:"Test Case for Calculator in Windows Application",
+ question:"Write a Java program to test the Calculator application in Windows by performing 7 + 5.",
+ steps:[
+ "Open Windows Calculator using Java.",
+ "Wait for the Calculator to open.",
+ "Create a Robot object.",
+ "Set the automatic delay.",
+ "Press 7.",
+ "Press +.",
+ "Press 5.",
+ "Press =.",
+ "Wait for the result.",
+ "Capture the screen.",
+ "Save the screenshot as calculator_result.png.",
+ "Verify that the result is 12."
+ ],
+ code:`import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+
+public class CalculatorTest {
+
+    public static void main(String[] args) throws Exception {
+
+        Runtime.getRuntime().exec("calc.exe");
+
+        Thread.sleep(2000);
+
+        Robot robot = new Robot();
+
+        robot.setAutoDelay(200);
+
+        typeKey(robot, KeyEvent.VK_7);
+        typeKey(robot, KeyEvent.VK_ADD);
+        typeKey(robot, KeyEvent.VK_5);
+        typeKey(robot, KeyEvent.VK_EQUALS);
+
+        Thread.sleep(1000);
+
+        Rectangle screenRect =
+            new Rectangle(
+                Toolkit.getDefaultToolkit().getScreenSize()
+            );
+
+        BufferedImage capture =
+            robot.createScreenCapture(screenRect);
+
+        ImageIO.write(
+            capture,
+            "png",
+            new File("calculator_result.png")
+        );
+
+        System.out.println(
+            "Test executed: 7 + 5 = 12"
+        );
+
+        System.out.println(
+            "Screenshot saved as calculator_result.png -- "
+            + "compare visually to confirm result is 12"
+        );
+    }
+
+    static void typeKey(
+            Robot robot,
+            int keyCode) {
+
+        robot.keyPress(keyCode);
+        robot.keyRelease(keyCode);
+    }
+}`,
+ output:`Test executed: 7 + 5 = 12
+Screenshot saved as calculator_result.png -- compare visually to confirm result is 12`
+}
+];
+
+const nav = document.getElementById("nav");
+const content = document.getElementById("content");
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[c]));
+}
+
+function block(label, value) {
+  if (!value) return "";
+  return `<div class="code-card">
+    <div class="code-top">
+      <span class="code-label">${label}</span>
+      <button class="copy" onclick="copyCode(this)">Copy</button>
+    </div>
+    <pre><code>${esc(value)}</code></pre>
+  </div>`;
+}
+
+experiments.forEach(e => {
+  nav.insertAdjacentHTML("beforeend",
+    `<a href="#${e.id}" data-target="${e.id}">${esc(e.num)} — ${esc(e.title)}</a>`
+  );
+
+  const steps = e.steps.map(x => `<li>${esc(x)}</li>`).join("");
+
+  content.insertAdjacentHTML("beforeend", `
+    <section class="experiment" id="${e.id}" data-search="${esc((e.num+" "+e.title+" "+e.question+" "+e.steps.join(" ")+" "+(e.code||"")).toLowerCase())}">
+      <div class="exp-head">
+        <div class="num">${esc(e.num)}</div>
+        <div><h2>${esc(e.title)}</h2></div>
+      </div>
+
+      <div class="question">
+        <strong>Question</strong><br>${esc(e.question)}
+      </div>
+
+      <h3>Steps</h3>
+      <ol class="steps">${steps}</ol>
+
+      ${e.code ? `<h3>Answer</h3>${block("Code", e.code)}` : `<h3>Answer</h3><div class="missing">${esc(e.note || "No code provided.")}</div>`}
+      ${e.output ? `<h3>Expected Output</h3>${block("Output", e.output)}` : ""}
+      ${e.note && e.code ? `<div class="note">${esc(e.note)}</div>` : ""}
+    </section>
+  `);
+});
+
+window.copyCode = async function(button) {
+  const code = button.closest(".code-card").querySelector("code").innerText;
+  try {
+    await navigator.clipboard.writeText(code);
+    const old = button.textContent;
+    button.textContent = "Copied!";
+    setTimeout(() => button.textContent = old, 1200);
+  } catch {
+    button.textContent = "Copy failed";
+    setTimeout(() => button.textContent = "Copy", 1200);
+  }
+};
+
+const layout = document.getElementById("layout");
+const menuBtn = document.getElementById("menuBtn");
+const themeBtn = document.getElementById("themeBtn");
+
+const savedTheme = localStorage.getItem("stm-theme") || "dark";
+document.documentElement.dataset.theme = savedTheme;
+themeBtn.textContent = savedTheme === "light" ? "☾" : "☼";
+
+menuBtn.addEventListener("click", () => {
+  layout.classList.toggle("sidebar-closed");
+  localStorage.setItem(
+    "stm-sidebar",
+    layout.classList.contains("sidebar-closed") ? "closed" : "open"
+  );
+});
+
+if (localStorage.getItem("stm-sidebar") === "closed") {
+  layout.classList.add("sidebar-closed");
+}
+
+themeBtn.addEventListener("click", () => {
+  const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem("stm-theme", next);
+  themeBtn.textContent = next === "light" ? "☾" : "☼";
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
+      const a = document.querySelector(`.nav a[data-target="${entry.target.id}"]`);
+      if (a) a.classList.add("active");
+    }
+  });
+}, { rootMargin: "-20% 0px -65% 0px" });
+
+document.querySelectorAll(".experiment").forEach(x => observer.observe(x));
+</script>
+</body>
+</html>
